@@ -10,8 +10,7 @@ class PhrasePublicController {
         const {category,safe_name,text,author} = request.all();
         /*
         * Obtem apenas o nome da categoria separado por _ e sem caracteres especiais
-        */
-       console.log('Recebendo request do scraping')
+        */       
         const splited_safe_name = safe_name.split('/')[3];
         
         const objAuthor     = await Author.findOrCreate({name:author},{name:author})

@@ -4,6 +4,11 @@
 const Model = use('Model')
 
 class Phrase extends Model {
+    static boot() {
+        super.boot()
+    
+        this.addTrait('@provider:Lucid/When')
+    }
     user(){
         return this.belongsTo('App/Models/User')
     }

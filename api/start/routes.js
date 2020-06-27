@@ -3,15 +3,16 @@ const Route = use('Route')
 
 Route.post('users', 'UserController.store')
 Route.post('sessions','SessionController.store')
-
-Route.post('PhrasesPublics','PhrasePublicController.store')
-Route.get('Phrases','PhraseController.index')
+Route.post('phrasesPublics','PhrasePublicController.store')
 
 
 
-Route.resource('authors','AuthorController').apiOnly()
+
 //Rotas autenticadas
 Route.group(() =>{
-
+    Route.get('authors','AuthorController.index')
+    Route.get('categories','PhraseCategoryController.index')
+    Route.get('phrases','PhraseController.index')
+    Route.post('phrases','PhraseController.store')
 }).middleware(['auth'])
 

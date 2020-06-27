@@ -19,7 +19,9 @@ class AuthorController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-    const authors = await Author.query().with('phrases').fetch()    
+    const queryParams = request.get()
+    const page = queryParams.page ? queryParams.page : 1
+    const authors = await Author.query().with('phrases').paginate()    
     return authors;
   }
 

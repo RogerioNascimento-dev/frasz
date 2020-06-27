@@ -22,22 +22,19 @@ class PhraseController {
    * @param {View} ctx.view
    */
   async index({request, response}){
-    const phrases = await Phrase.query().with('author').with('user').fetch();
+    const queryParams = request.get()    
+    const page = queryParams.page ? queryParams.page : 1
+    
+    const phrases = await Phrase.query()
+    .with('author')
+    .with('user')
+    .when(queryParams.author_id, (q, value) => q.where('author_id', value))    
+    .when(queryParams.user_id, (q, value) => q.where('user_id', value)) 
+    .paginate(page);
     return phrases
 }
 
-  /**
-   * Render a form to be used for creating a new phrase.
-   * GET phrases/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
-
+  
   /**
    * Create/save a new phrase.
    * POST phrases
@@ -46,7 +43,17 @@ class PhraseController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store ({ request, response, auth }) {
+    const {text,safe_name} = request.only(['text','safe_name']);
+    const category = await Category.findByOrFail('safe_name',safe_name)
+    const phrase = await Phrase.create(
+      {
+        text,
+        user_id:auth.user.id,
+        category_id:category.id
+      });
+
+    return phrase
   }
 
   /**
@@ -61,17 +68,6 @@ class PhraseController {
   async show ({ params, request, response, view }) {
   }
 
-  /**
-   * Render a form to update an existing phrase.
-   * GET phrases/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
 
   /**
    * Update phrase details.
