@@ -21,8 +21,10 @@ class PhraseController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response }) {
-  }
+  async index({request, response}){
+    const phrases = await Phrase.query().with('author').with('user').fetch();
+    return phrases
+}
 
   /**
    * Render a form to be used for creating a new phrase.

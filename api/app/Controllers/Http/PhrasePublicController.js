@@ -4,7 +4,8 @@ const Author = use('App/Models/Author')
 const Category = use('App/Models/PhraseCategory')
 const Phrase = use('App/Models/Phrase')
 
-class PhrasePublicController {
+class PhrasePublicController {    
+    
     async store({request,response}){
         const {category,safe_name,text,author} = request.all();
         /*
