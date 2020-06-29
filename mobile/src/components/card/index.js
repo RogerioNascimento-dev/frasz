@@ -6,10 +6,10 @@ import {AntDesign} from '@expo/vector-icons';
 
 const Card = ({phrase,author,id}) => {
 
-    const handleOnShare = async (phrase) => {
+    const handleOnShare = async (phrase,author) => {
         try {
           const result = await Share.share(
-              {message:phrase},
+              {message:`${phrase} (${author})`},
               {dialogTitle:"Por onde deseja compartilhar?"}
               );                    
         } catch (error) {
@@ -17,8 +17,8 @@ const Card = ({phrase,author,id}) => {
         }
       };
 
-      const handleCopy = async (phrase) => {
-        await Clipboard.setString(phrase);
+      const handleCopy = async (phrase,author) => {
+        await Clipboard.setString(`${phrase} (${author})`);
         alert('Copied to Clipboard!');
       };
   return (
@@ -30,9 +30,9 @@ const Card = ({phrase,author,id}) => {
             <Text>{author}</Text>
             <View style={styles.containerFooterBottons}>
                 <TouchableOpacity style={{marginRight:10}}>
-                    <AntDesign name="copy1" size={20} color="black" onPress={()=>handleCopy(phrase)} />
+                    <AntDesign name="copy1" size={20} color="black" onPress={()=>handleCopy(phrase,author)} />
                 </TouchableOpacity>
-                <TouchableOpacity style={{marginRight:10}} onPress={() => handleOnShare(phrase)}>
+                <TouchableOpacity style={{marginRight:10}} onPress={() => handleOnShare(phrase,author)}>
                     <AntDesign name="sharealt" size={20} color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity>

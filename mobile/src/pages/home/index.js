@@ -13,17 +13,26 @@ const Home = () => {
   const [pageCategories,setPageCategories] = useState(1)
   const [loadingCategories,setLoadingCategories] = useState(false)
 
-
   const [authors,setAuthors] =  useState([]);
   const [totalAuthors,setTotalAuthors] =  useState(0);
   const [pageAuthors,setPageAuthors] =  useState(1);
   const [loadingAuthors,setLoadingAuthors] =  useState(false);
+
+  const [phrases,setPhrases] =  useState([]);    
+  const [loadingPhrases,setLoadingPhrases] =  useState(false);
 
   function handdleMinicardCategories(){
     alert('chamei aqui...');
   }
   function handdleMinicardAuthor(){
 
+  }
+  async function loadPhrases(){
+    setLoadingPhrases(true);
+    const response = await api.get('phrases');
+    const {data} = response.data;
+    setPhrases(data);
+    setLoadingPhrases(false);
   }
   async function loadAuthors(){    
     if(loadingAuthors || totalAuthors > 0 && authors.length === totalAuthors){
@@ -56,6 +65,7 @@ const Home = () => {
   useEffect(() =>{   
    loadAuthors()
    loadCategories()
+   loadPhrases()
   },[])  
   return (
     <>
@@ -66,7 +76,7 @@ const Home = () => {
             <View style={{flexDirection:'row'}}>              
                 <Text style={styles.textCategories}>Categorias de frases</Text>               
                 {loadingCategories &&
-                  <ActivityIndicator size="small" color={colors.primary} />
+                  <ActivityIndicator size="small" color={colors.titles} />
                 }
             </View>    
             <FlatList
@@ -86,7 +96,7 @@ const Home = () => {
           <View style={{flexDirection:'row'}}>
           <Text style={styles.textCategories}>Autores</Text>   
           {loadingAuthors &&
-            <ActivityIndicator size="small" color={colors.primary} />
+            <ActivityIndicator size="small" color={colors.titles} />
           }  
           </View>
             <FlatList
@@ -107,19 +117,20 @@ const Home = () => {
       </View> 
 
   <View style={{paddingHorizontal: 20, backgroundColor:colors.background}}>
+  <View style={{flexDirection:'row'}}>  
     <Text style={styles.textCategories}>Frases Em Destaque</Text>  
-                  <Card 
-                  phrase="Esta aqui é a minha frase para compartilhamento"
-                  author="Fulaninho de tal"
-                  id={10}
-                  />
-                  <Card 
-                  phrase="Só pra testar se esta copiando mesmo"
-                  author="Maria Melina de tal"
-                  id={11}
-                  />
-                                       
-    
+    {loadingPhrases &&
+      <ActivityIndicator size="small" color={colors.titles} />
+    } 
+    </View>
+    {phrases.map((phrase) =>(    
+      <Card 
+        key={`${phrase.id}`}
+        phrase={phrase.text}
+        author={(phrase.author?.name)?phrase.author?.name:phrase.user?.name}
+        id={phrase.id}
+      />
+    ))}
   </View>
   </ScrollView>
   </>
