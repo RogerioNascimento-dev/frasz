@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import { View,Text,ScrollView,FlatList,TouchableOpacity,ActivityIndicator } from 'react-native';
+import { View,Text,ScrollView,FlatList,ActivityIndicator } from 'react-native';
 import styles from './styles';
 import Header from '../../components/header'
 import MiniCard from '../../components/miniCard';
@@ -108,16 +108,12 @@ const Home = () => {
 
   <View style={{paddingHorizontal: 20, backgroundColor:colors.background}}>
     <Text style={styles.textCategories}>Frases Em Destaque</Text>  
-                  <Card/>
-                  <Card/>
-                  <Card/>
-                  <Card/>
-                  <Card/>
-                  <Card/>
-                  <Card/>
-                  <Card/>
-                  <Card/>
-                  <Card/>                      
+                  <Card 
+                  phrase="Esta aqui é a minha frase para compartilhamento"
+                  author="Fulaninho de tal"
+                  id={10}
+                  />
+                                       
     
   </View>
   </ScrollView>

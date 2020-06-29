@@ -1,21 +1,33 @@
 import React from 'react';
-import { View,Text,TouchableOpacity } from 'react-native';
+import { View,Text,TouchableOpacity,Share } from 'react-native';
 import styles from './styles';
 import {AntDesign} from '@expo/vector-icons'
 
-const Card = () => {
+const Card = ({phrase,author,id}) => {
+
+    const handleOnShare = async (phrase) => {
+        try {
+          const result = await Share.share(
+              {message:phrase},
+              {dialogTitle:"Por onde deseja compartilhar?"}
+              );                    
+        } catch (error) {
+          alert(error.message);
+        }
+      };
+
   return (
       <View style={styles.container}>
           <View style={styles.containerPhrase}>
-              <Text style={styles.phrase}>Em quanto houver sol ainda haverá um amanhã dígno da gente se ver</Text>
+            <Text style={styles.phrase}>{phrase}</Text>
           </View>
           <View style={styles.containerFooter}>
-            <Text>Rogério Nascimento</Text>
+            <Text>{author}</Text>
             <View style={styles.containerFooterBottons}>
                 <TouchableOpacity style={{marginRight:10}}>
                     <AntDesign name="copy1" size={20} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity style={{marginRight:10}}>
+                <TouchableOpacity style={{marginRight:10}} onPress={() => handleOnShare(phrase)}>
                     <AntDesign name="sharealt" size={20} color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity>
