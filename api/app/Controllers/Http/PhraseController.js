@@ -30,6 +30,7 @@ class PhraseController {
     .with('user')
     .when(queryParams.author_id, (q, value) => q.where('author_id', value))    
     .when(queryParams.user_id, (q, value) => q.where('user_id', value)) 
+    .orderBy('shared','desc')
     .paginate(page);
     return phrases
 }
