@@ -21,7 +21,7 @@ class AuthorController {
   async index ({ request, response, view }) {
     const queryParams = request.get()
     const page = queryParams.page ? queryParams.page : 1
-    const authors = await Author.query().with('phrases').paginate()    
+    const authors = await Author.query().with('phrases').paginate(page)    
     return authors;
   }
 

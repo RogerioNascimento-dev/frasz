@@ -4,7 +4,7 @@ class PhraseCategoryController {
     async index({request, response}){
         const queryParams = request.get();
         const page = queryParams.page ? queryParams.page : 1
-        const categories = await Category.query().paginate(page);
+        const categories = await Category.query().with('phrases').paginate(page);
         return categories;
     }
 }
