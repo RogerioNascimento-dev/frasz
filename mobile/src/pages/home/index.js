@@ -113,6 +113,11 @@ const Home = () => {
                   author="Fulaninho de tal"
                   id={10}
                   />
+                  <Card 
+                  phrase="Só pra testar se esta copiando mesmo"
+                  author="Maria Melina de tal"
+                  id={11}
+                  />
                                        
     
   </View>

@@ -1,7 +1,8 @@
 import React from 'react';
-import { View,Text,TouchableOpacity,Share } from 'react-native';
+import { View,Text,TouchableOpacity,Share,Clipboard } from 'react-native';
 import styles from './styles';
-import {AntDesign} from '@expo/vector-icons'
+import {AntDesign} from '@expo/vector-icons';
+
 
 const Card = ({phrase,author,id}) => {
 
@@ -16,6 +17,10 @@ const Card = ({phrase,author,id}) => {
         }
       };
 
+      const handleCopy = async (phrase) => {
+        await Clipboard.setString(phrase);
+        alert('Copied to Clipboard!');
+      };
   return (
       <View style={styles.container}>
           <View style={styles.containerPhrase}>
@@ -25,7 +30,7 @@ const Card = ({phrase,author,id}) => {
             <Text>{author}</Text>
             <View style={styles.containerFooterBottons}>
                 <TouchableOpacity style={{marginRight:10}}>
-                    <AntDesign name="copy1" size={20} color="black" />
+                    <AntDesign name="copy1" size={20} color="black" onPress={()=>handleCopy(phrase)} />
                 </TouchableOpacity>
                 <TouchableOpacity style={{marginRight:10}} onPress={() => handleOnShare(phrase)}>
                     <AntDesign name="sharealt" size={20} color="black" />
