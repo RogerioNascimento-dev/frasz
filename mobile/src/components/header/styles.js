@@ -3,8 +3,7 @@ import colors from '../../commons/colors'
 
 const styles = StyleSheet.create({
     container:{
-        paddingTop:15,
-        height: 150,
+        paddingTop:15,        
         alignItems:'center',
         justifyContent: 'center',
         backgroundColor: colors.primary

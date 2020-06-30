@@ -11,7 +11,7 @@ const Login = () => {
     
   async function handleSignInFacebook(){        
    const response =  await signInFacebook('royal.xd01@gmail.com','1010')    
-   if(!response.success){
+   if(!response.success){     
      alert('Algo inesperado aconteceu!')
    }
   }

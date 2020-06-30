@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import { View,Text,ScrollView,FlatList,ActivityIndicator } from 'react-native';
+import { View,Text,ScrollView,FlatList,ActivityIndicator,Animated } from 'react-native';
 import styles from './styles';
 import Header from '../../components/header'
 import MiniCard from '../../components/miniCard';
@@ -20,7 +20,7 @@ const Home = () => {
 
   const [phrases,setPhrases] =  useState([]);    
   const [loadingPhrases,setLoadingPhrases] =  useState(false);
-
+  
   function handdleMinicardCategories(){
     alert('chamei aqui...');
   }
@@ -67,6 +67,8 @@ const Home = () => {
    loadCategories()
    loadPhrases()
   },[])  
+
+ 
   return (
     <>
     <Header />
