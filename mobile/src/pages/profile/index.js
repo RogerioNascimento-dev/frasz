@@ -1,13 +1,26 @@
-import React from 'react';
-import { View,Text } from 'react-native';
+import React,{useContext} from 'react';
+import { View,Text,TouchableOpacity } from 'react-native';
+import PreferenceContext from '../../context/preferences';
 
-import styles from './styles';
+import {
+  Container,  
+} from './styles';
 
 const Profile = () => {
+  const { changeDarkMode } = useContext(PreferenceContext); 
+  
+
+  const hanfleChangeDarkMode = () =>{
+    changeDarkMode();
+  }
+
   return (
-      <View style={styles.container}>
+      <Container>
           <Text>Perfil do usuário</Text>
-      </View>
+          <TouchableOpacity onPress={hanfleChangeDarkMode}>
+            <Text>Clique para Tema Dark</Text>
+          </TouchableOpacity>
+      </Container>
   );
 }
 

@@ -1,5 +1,5 @@
 import React,{useContext,useState,useEffect} from 'react';
-import { Text, View,Image,TouchableOpacity,Animated } from 'react-native';
+import { Text, Image,TouchableOpacity,Animated } from 'react-native';
 import logoHeader from '../../assets/logoBlackHeader.png';
 import {FontAwesome} from '@expo/vector-icons'
 import styles from './styles';
@@ -25,6 +25,7 @@ const header = () => {
           <TouchableOpacity style={styles.containerNameUser} onPress={signOut}>
             <Text style={styles.textNameUser}>Olá, {user.name}</Text>
             <FontAwesome name="sign-out" size={20} color={colors.texts} />
+            
           </TouchableOpacity>
       </Animated.View>
   );

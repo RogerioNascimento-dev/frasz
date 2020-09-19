@@ -1,52 +1,51 @@
-import {StyleSheet} from 'react-native';
-import colors from '../../commons/colors'
-const styles = StyleSheet.create({
-    container:{
-        flex: 1,
-        backgroundColor: colors.background
-    },
-    containerLogo:{
-        flex: 1,
-        backgroundColor: colors.primary,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    containerApresentation:{
-        flex: 1,
-        padding:30,        
-    },
-    title:{
-        fontSize:24,        
-        fontWeight:'bold',
-        fontFamily:'Roboto',
-        color:colors.titles
-    },
-    subTitle:{
-        fontSize:15,                
-        fontFamily:'Roboto',
-        color:colors.texts,
-        lineHeight: 20.5
-    },
-    containerButton:{
-        marginTop:20,
-    },
-    buttonLogin:{
-        backgroundColor:colors.primary,
-        padding:10,
-        alignItems:'center',
-        justifyContent: 'center'        
-    },
-    textButtonLogin:{
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginLeft:10
-    },
-    containerAlignButton:{
-        alignItems:'center',         
-        flexDirection:'row',
-        alignContent:'space-around'
-    }
-})
+import styled from 'styled-components/native';
+import {widthScreemPercent} from '../../commons/functions';
 
+export const Container = styled.View`
+    flex:1;    
+    justify-content:center;    
+    background-color:${props => props.theme.background};    
+`;   
 
-export default styles;
+export const ContainerLogo = styled.View`    
+    align-items:flex-start;
+    justify-content:center;
+    padding:0px 20px;    
+`;
+export const Logo = styled.Image`    
+`;
+export const TextLogo = styled.Text`
+    font-size:28px;
+    font-weight:bold;
+    color: ${props => props.theme.titles};    
+`;
+
+export const ContainerUndrow = styled.View`
+    align-items:center;
+    justify-content:center;
+    margin-top:20px;
+`;
+
+export const ContainerButton = styled.View`    
+    margin-top:40px;        
+    align-items:center;
+    justify-content:center;        
+`;
+
+export const ButtonLogin = styled.TouchableOpacity`                   
+        padding: 10px 30px;
+        margin-bottom:5px;                
+        background-color:${props =>props.theme.bgButtons};
+        width: ${widthScreemPercent(0.8)}px;        
+`;
+
+export const ContainerAlignButton = styled.View`           
+        flex-direction:row;
+        align-items:center;        
+        justify-content:center;
+        
+`;
+export const TextButtonLogin = styled.Text`           
+    margin-left:10px;
+    font-size:16px;
+`;

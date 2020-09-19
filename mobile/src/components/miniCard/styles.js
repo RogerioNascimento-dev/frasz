@@ -6,8 +6,8 @@ const styles = StyleSheet.create({
     container:{        
         backgroundColor:colors.primary,
         padding: 10,
-        borderRadius:10,
-        width: widthScreemPercent(0.6),
+        borderRadius:10,       
+       alignSelf:"flex-end",
         marginLeft: 5
     },
     containerTouch:{},

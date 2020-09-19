@@ -1,54 +1,57 @@
 import React,{useContext} from 'react';
-import { View,Text,Image,TouchableOpacity } from 'react-native';
 import { FontAwesome} from "@expo/vector-icons";
+import LogoMin from '../../assets/LogoMin.png';
+import logoBlack from '../../assets/logoBlack.png';
 import AuthContext from '../../context/auth';
 
-import Logo from '../../assets/logoBlack.png';
-import styles from './styles';
+ import { Container,
+  ContainerLogo,
+  Logo,
+  TextLogo,
+  ContainerUndrow,
+  ContainerButton,
+  ButtonLogin,
+  ContainerAlignButton,
+  TextButtonLogin } from './styles';
 
 const Login = () => {
+
   const { signInFacebook } = useContext(AuthContext);
-    
+
   async function handleSignInFacebook(){        
-   const response =  await signInFacebook('royal.xd01@gmail.com','1010')    
-   if(!response.success){     
-     alert('Algo inesperado aconteceu!')
+    const response =  await signInFacebook('royal.xd01@gmail.com','1010')    
+    if(!response.success){     
+      alert('Algo inesperado aconteceu!')
+    }
    }
-  }
 
   return (
-    <View style={styles.container}>
-        <View style={styles.containerLogo}>
-          <Image source={Logo} />
-        </View>
-        <View style={styles.containerApresentation}>
-          <Text style={styles.title}>Bem Vindo!</Text>
-          <Text style={styles.subTitle}>Cadastre-se e acesse gratuitamente usando o facebook.</Text>
+  <Container>
+      <ContainerLogo>
+          <Logo source={LogoMin} />
+          <TextLogo>Seja bem vindo ao</TextLogo>
+          <TextLogo>Frazs</TextLogo>                   
+      </ContainerLogo>
+      <ContainerUndrow>
+        <Logo source={logoBlack} />
+      </ContainerUndrow>     
 
-          <View  style={styles.containerButton}>
-            <TouchableOpacity style={styles.buttonLogin} onPress={handleSignInFacebook}>  
-              <View style={styles.containerAlignButton}>
-                <FontAwesome name="facebook-official" size={20} color="blue" />  
-                <Text style={styles.textButtonLogin}>               
-                  Acessar com Facebook
-                </Text>
-              </View>          
-            </TouchableOpacity>
-          </View>
-          
-          <View  style={styles.containerButton}>
-            <TouchableOpacity style={styles.buttonLogin}>  
-              <View style={styles.containerAlignButton}>
-                <FontAwesome name="google-plus-square" size={20} color="red" />  
-                <Text style={styles.textButtonLogin}>               
-                  Acessar com o Google
-                </Text>
-              </View>          
-            </TouchableOpacity>
-          </View>
+      <ContainerButton>
 
-        </View>        
-    </View>
+        <ButtonLogin onPress={handleSignInFacebook}>
+            <ContainerAlignButton >
+              <FontAwesome name="facebook-official" size={20} color="blue" />  
+              <TextButtonLogin>Acessar com Facebook</TextButtonLogin>
+            </ContainerAlignButton>
+        </ButtonLogin> 
+        <ButtonLogin>
+            <ContainerAlignButton>
+              <FontAwesome name="google-plus-square" size={20} color="red" />  
+              <TextButtonLogin>Acessar com Google</TextButtonLogin>
+            </ContainerAlignButton>
+        </ButtonLogin>
+      </ContainerButton>
+  </Container>
   );
 }
 

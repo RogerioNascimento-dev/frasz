@@ -61,7 +61,6 @@ const Home = () => {
   setPageCategories(pageCategories + 1);
 }
 
-
   useEffect(() =>{   
    loadAuthors()
    loadCategories()
