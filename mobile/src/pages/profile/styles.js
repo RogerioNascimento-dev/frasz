@@ -7,3 +7,6 @@ export const Container = styled.View`
         background-color:${props => props.theme.background};
 `;  
 
+export const TextTeste = styled.Text`
+        color: ${props => props.theme.titles};
+`;

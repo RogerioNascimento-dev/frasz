@@ -4,6 +4,7 @@ import PreferenceContext from '../../context/preferences';
 
 import {
   Container,  
+  TextTeste
 } from './styles';
 
 const Profile = () => {
@@ -16,9 +17,9 @@ const Profile = () => {
 
   return (
       <Container>
-          <Text>Perfil do usuário</Text>
+          <TextTeste>Perfil do usuário</TextTeste>
           <TouchableOpacity onPress={hanfleChangeDarkMode}>
-            <Text>Clique para Tema Dark</Text>
+            <TextTeste>Clique para Tema Dark</TextTeste>
           </TouchableOpacity>
       </Container>
   );
