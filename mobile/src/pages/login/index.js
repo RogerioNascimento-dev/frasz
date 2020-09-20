@@ -3,6 +3,7 @@ import { FontAwesome} from "@expo/vector-icons";
 import LogoMin from '../../assets/LogoMin.png';
 import logoBlack from '../../assets/logoBlack.png';
 import AuthContext from '../../context/auth';
+import * as Facebook from 'expo-facebook';
 
  import { Container,
   ContainerLogo,
@@ -18,11 +19,36 @@ const Login = () => {
 
   const { signInFacebook } = useContext(AuthContext);
 
-  async function handleSignInFacebook(){        
-    const response =  await signInFacebook('royal.xd01@gmail.com','1010')    
-    if(!response.success){     
-      alert('Algo inesperado aconteceu!')
-    }
+  async function handleSignInFacebook(){  
+    
+    
+    try{
+      await Facebook.initializeAsync('935499743624589');
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile','email'],
+      });
+      if (type === 'success') {
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=first_name,last_name,email,profile_pic`);
+        const userFacebook = await response.json();
+        console.log('dados do usuário do facebook');
+        console.log(userFacebook);
+
+        /*
+        const response =  await signInFacebook('royal.xd01@gmail.com','1010')    
+        if(!response.success){     
+        alert('Algo inesperado aconteceu!')
+        }
+        */
+      }
+    }catch ({ message }) {
+      console.log(`Facebook Login Error: ${message}`);
+    }    
    }
 
   return (
