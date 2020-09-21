@@ -1,11 +1,20 @@
 import React,{useEffect,useState} from 'react';
-import { View,Text,ScrollView,FlatList,ActivityIndicator,Animated } from 'react-native';
-import styles from './styles';
+import { ScrollView,ActivityIndicator } from 'react-native';
 import Header from '../../components/header'
 import MiniCard from '../../components/miniCard';
 import Card from '../../components/card';
-import colors from '../../commons/colors';
 import api from '../../services/api';
+
+import {  
+  Container,
+  ContainerCategories,
+  Lists,
+  TextCategories,
+  SpotlightContainer,
+  SpotlightTitleContainer,
+  ContainerTitleCategories
+
+} from './styles';
 
 const Home = () => {
   const [categories,setCategories] = useState([])
@@ -72,16 +81,15 @@ const Home = () => {
     <>
     <Header />
     <ScrollView>      
-      <View style={styles.container}>
-        <View style={styles.containerCategories}>
-            <View style={{flexDirection:'row'}}>              
-                <Text style={styles.textCategories}>Categorias de frases</Text>               
+      <Container>
+        <ContainerCategories>
+            <ContainerTitleCategories>              
+                <TextCategories>Categorias</TextCategories>               
                 {loadingCategories &&
-                  <ActivityIndicator size="small" color={colors.titles} />
+                  <ActivityIndicator size="small" color={props => props.theme.titles}  />
                 }
-            </View>    
-            <FlatList
-              style={styles.lists}
+            </ContainerTitleCategories>    
+            <Lists              
               data={categories}
               onEndReached={loadCategories}
               onEndReachedThreshold={0.2}
@@ -94,14 +102,13 @@ const Home = () => {
                 )
               }}
             />
-          <View style={{flexDirection:'row'}}>
-          <Text style={styles.textCategories}>Autores</Text>   
+          <ContainerTitleCategories>
+          <TextCategories>Autores</TextCategories>   
           {loadingAuthors &&
-            <ActivityIndicator size="small" color={colors.titles} />
+            <ActivityIndicator size="small" color={props => props.theme.titles}  />
           }  
-          </View>
-            <FlatList
-              style={styles.lists}
+          </ContainerTitleCategories>
+            <Lists              
               data={authors}
               keyExtractor={autor => `${autor.id}`}
               horizontal
@@ -114,16 +121,16 @@ const Home = () => {
                 )
               }}
             />          
-        </View>  
-      </View> 
+        </ContainerCategories>  
+      </Container> 
 
-  <View style={{paddingHorizontal: 20, backgroundColor:colors.background}}>
-  <View style={{flexDirection:'row'}}>  
-    <Text style={styles.textCategories}>Frases Em Destaque</Text>  
+  <SpotlightContainer>
+  <SpotlightTitleContainer>  
+    <TextCategories>Frases Em Destaque</TextCategories>  
     {loadingPhrases &&
-      <ActivityIndicator size="small" color={colors.titles} />
+      <ActivityIndicator size="small" color={props => props.theme.titles} />
     } 
-    </View>
+    </SpotlightTitleContainer>
     {phrases.map((phrase) =>(    
       <Card 
         key={`${phrase.id}`}
@@ -132,7 +139,7 @@ const Home = () => {
         id={phrase.id}
       />
     ))}
-  </View>
+  </SpotlightContainer>
   </ScrollView>
   </>
   );

@@ -1,24 +1,17 @@
-import { StyleSheet } from 'react-native'
-import colors from '../../commons/colors'
-import {widthScreemPercent} from '../../commons/functions'
+import styled from 'styled-components/native';
 
-const styles = StyleSheet.create({
-    container:{        
-        backgroundColor:colors.primary,
-        padding: 10,
-        borderRadius:10,       
-       alignSelf:"flex-end",
-        marginLeft: 5
-    },
-    containerTouch:{},
-    title:{
-        fontWeight:'bold',
-        fontSize: 18,
-        color:colors.titles
-    },
-    subTitle:{
-        color:colors.subTitle
-    }
-})
-
-export default styles
+export const Container = styled.View`
+        background-color:${props => props.theme.bgMinicard};
+        padding: 10px;
+        border-radius:10px;
+        align-self:flex-end;
+        margin-left: 5px;
+    `;    
+export const Title =  styled.Text`
+        font-weight:bold;
+        font-size: 18px;
+        color: ${props => props.theme.titlesMinicard};
+    `;
+export  const SubTitle = styled.Text`
+        color: ${props => props.theme.texts};
+    `;

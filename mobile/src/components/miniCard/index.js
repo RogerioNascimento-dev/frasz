@@ -1,17 +1,20 @@
 import React from 'react';
-import { Text,TouchableOpacity } from 'react-native';
 import {capitalize} from '../../commons/functions';
-import styles from './styles';
+import {
+  Container,
+  Title,
+  SubTitle,
+} from './styles';
 
 const MiniCard = ({onpress,title,subTitle}) => {
     const titleReplaced = capitalize(title.replace('Frases ', ''))
   return (    
-        <TouchableOpacity style={styles.container} onPress={onpress}>
-            <Text numberOfLines={1} style={styles.title}>{titleReplaced}</Text>
+        <Container onPress={onpress}>
+            <Title numberOfLines={1} >{titleReplaced}</Title>
             {subTitle && 
-            <Text style={styles.subTitle}>{subTitle}</Text>
+            <SubTitle>{subTitle}</SubTitle>
             }
-        </TouchableOpacity>     
+        </Container>     
   );
 }
 
