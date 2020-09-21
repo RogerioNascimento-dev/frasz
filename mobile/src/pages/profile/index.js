@@ -1,5 +1,5 @@
 import React,{useContext,useEffect} from 'react';
-import { View,Text,TouchableOpacity } from 'react-native';
+import { Text,TouchableOpacity } from 'react-native';
 import PreferenceContext from '../../context/preferences';
 import AuthContext from '../../context/auth';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -16,7 +16,7 @@ import {
 
 const Profile = () => {
   const { changeDarkMode } = useContext(PreferenceContext); 
-  const {user} = useContext(AuthContext);
+  const {user,signOut} = useContext(AuthContext);
  
   const hanfleChangeDarkMode = () =>{
     changeDarkMode();
@@ -36,6 +36,10 @@ const Profile = () => {
           </TouchableOpacity>
           <Biography>"Formando em sistemas de informação, amante de programação.testando a quantidade de caracteres permiti."</Biography>
         </ContainerImagePerfil>
+        
+        <TouchableOpacity onPress={() => signOut()}>
+          <Text>SAIR</Text>
+        </TouchableOpacity>
       </Container>
       
   );
