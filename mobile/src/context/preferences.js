@@ -12,11 +12,9 @@ export const PreferenceProvider = ({children}) =>{
     const [darkMode, setDarkMode] = useState(false);
 
     useEffect(() =>{
-        async function loadStorageData(){     
-            console.log('carregou: loadStorageData');                          
+        async function loadStorageData(){                 
             const storeDarkMode = await AsyncStorage.getItem('@RNfrasz:darkMode');            
-            if(storeDarkMode){                
-                console.log('entrou no if do storedarkmode'+JSON.parse(storeDarkMode))
+            if(storeDarkMode){                                
                 setDarkMode(JSON.parse(storeDarkMode));                
             }                      
         }

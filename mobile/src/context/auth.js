@@ -28,9 +28,11 @@ export const AuthProvider = ({children}) =>{
         loadStorageData()
     },[])
 
-    async function signInFacebook(email,password){        
+    async function signInFacebook({id,email,name,picture}){        
         setLoading(true);
-        const response = await auth.signInFacebook(email,password)        
+        const password = id;
+        const imageProfile = picture.data.url;        
+        const response = await auth.signInFacebook(email,password,name,imageProfile);     
         if(response.success){
             api.defaults.headers.Authorization = `Bearer ${response.token}`;
             setUser(response.user)      
