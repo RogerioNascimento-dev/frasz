@@ -1,11 +1,17 @@
 import React from 'react';
-import { View,Text,TouchableOpacity,Share,Clipboard } from 'react-native';
-import styles from './styles';
+import { Text,TouchableOpacity,Share,Clipboard } from 'react-native';
 import {AntDesign} from '@expo/vector-icons';
 
+import {  
+  Container,
+  ContainerPhrase,
+  Phrase,
+  ContainerFooter,
+  ContainerFooterBottons,
+  AuthorText
+} from './styles';
 
 const Card = ({phrase,author,id}) => {
-
     const handleOnShare = async (phrase,author) => {
         try {
           const result = await Share.share(
@@ -22,13 +28,13 @@ const Card = ({phrase,author,id}) => {
         alert('Copied to Clipboard!');
       };
   return (
-      <View style={styles.container}>
-          <View style={styles.containerPhrase}>
-            <Text style={styles.phrase}>{phrase}</Text>
-          </View>
-          <View style={styles.containerFooter}>
-            <Text>{author}</Text>
-            <View style={styles.containerFooterBottons}>
+      <Container>
+          <ContainerPhrase>
+            <Phrase>{phrase}</Phrase>
+          </ContainerPhrase>
+          <ContainerFooter>
+            <AuthorText>{author ? author : 'Desconhecido'}</AuthorText>
+            <ContainerFooterBottons>
                 <TouchableOpacity style={{marginRight:10}}>
                     <AntDesign name="copy1" size={20} color="black" onPress={()=>handleCopy(phrase,author)} />
                 </TouchableOpacity>
@@ -38,9 +44,9 @@ const Card = ({phrase,author,id}) => {
                 <TouchableOpacity>
                     <AntDesign name="heart" size={20} color="black" />
                 </TouchableOpacity>
-            </View>
-          </View>
-      </View>
+            </ContainerFooterBottons>
+          </ContainerFooter>
+      </Container>
   );
 }
 

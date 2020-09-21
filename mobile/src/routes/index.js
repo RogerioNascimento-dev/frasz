@@ -1,4 +1,5 @@
-import React,{useContext,useState} from 'react';
+import React,{useContext} from 'react';
+import {StatusBar} from 'react-native';
 import AppRoutes from './app.routes'
 import AuthRoutes from './auth.routes';
 import AuthContext from '../context/auth';
@@ -18,16 +19,17 @@ const Routes = () => {
         <View style={{flex:1,alignContent:'center',justifyContent:'center'}}>
             <ActivityIndicator size="large" color="#666" />
         </View>
-     )
+     )     
 }
-  return signed ?
-  <ThemeProvider theme={darkMode ? colors.dark :colors.light} > 
-  <AppRoutes />
-  </ThemeProvider>
-  :
+
+return (
+  <>
+  <StatusBar barStyle={darkMode?'light-content':'dark-content'} backgroundColor="transparent" translucent  />
   <ThemeProvider theme={darkMode ? colors.dark :colors.light} >
-    <AuthRoutes/>
-    </ThemeProvider>;
+    {signed ? <AppRoutes />:<AuthRoutes/>}
+  </ThemeProvider>
+  </>
+);  
 }
 
 export default Routes;
