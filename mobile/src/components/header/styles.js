@@ -4,10 +4,9 @@ import {widthScreemPercent} from '../../commons/functions';
 
  export const  Container = styled.View`
         flex-direction:row;
-        padding-top:${StatusBar.currentHeight + 10}px;
-        background-color:${props => props.theme.background};
-        padding-top:40px;
-        padding-left:20px;
+        padding:${StatusBar.currentHeight + 20}px 0px 0px 20px;
+        background-color:${props => props.theme.background};       
+        
 `;
 export const  ContainerNameUser = styled.TouchableOpacity`        
         align-content:space-around;

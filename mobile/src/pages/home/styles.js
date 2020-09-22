@@ -1,5 +1,10 @@
 import styled from 'styled-components/native';
 
+export const ScrollViewContainer = styled.ScrollView`
+    flex:1;
+    background-color:${props => props.theme.background};
+`;
+
 export const Container = styled.View`
         flex: 1;
         padding-top: 10px;
@@ -39,4 +44,8 @@ export const SpotlightTitleContainer = styled.View`
 `;
 export const ContainerTitleCategories = styled.View`
     flex-direction:row;
+`;
+export const TextNotData = styled.Text`
+    color:${props => props.theme.texts}; 
+    font-size:16px;
 `;

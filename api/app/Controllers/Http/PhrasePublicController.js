@@ -22,6 +22,10 @@ class PhrasePublicController {
             {text,author_id:objAuthor.id},
             {text,author_id:objAuthor.id,category_id:objCategory.id})
 
+            console.log('|========Nova frase recebida do web scraping|==============')
+            console.log('Categoria: '+category);
+            console.log('Autor: '+author);            
+
         return objPhrase;
     }
 }

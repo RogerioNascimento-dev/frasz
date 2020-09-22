@@ -6,13 +6,15 @@ import Card from '../../components/card';
 import api from '../../services/api';
 
 import {  
+  ScrollViewContainer,
   Container,
   ContainerCategories,
   Lists,
   TextCategories,
   SpotlightContainer,
   SpotlightTitleContainer,
-  ContainerTitleCategories
+  ContainerTitleCategories,
+  TextNotData
 
 } from './styles';
 
@@ -73,14 +75,14 @@ const Home = () => {
   useEffect(() =>{   
    loadAuthors()
    loadCategories()
-   loadPhrases()
+   loadPhrases()   
   },[])  
 
  
   return (
     <>
     <Header />
-    <ScrollView>      
+    <ScrollViewContainer>      
       <Container>
         <ContainerCategories>
             <ContainerTitleCategories>              
@@ -88,7 +90,10 @@ const Home = () => {
                 {loadingCategories &&
                   <ActivityIndicator size="small" color={props => props.theme.titles}  />
                 }
-            </ContainerTitleCategories>    
+            </ContainerTitleCategories>  
+            {!loadingCategories && totalCategories == 0 &&
+              <TextNotData>Nenhuma categoria encontrada.</TextNotData>  
+            } 
             <Lists              
               data={categories}
               onEndReached={loadCategories}
@@ -102,12 +107,16 @@ const Home = () => {
                 )
               }}
             />
+            
           <ContainerTitleCategories>
           <TextCategories>Autores</TextCategories>   
           {loadingAuthors &&
             <ActivityIndicator size="small" color={props => props.theme.titles}  />
           }  
           </ContainerTitleCategories>
+          {!loadingAuthors && totalAuthors == 0 &&
+              <TextNotData>Nenhum autor encontrado.</TextNotData>  
+            }
             <Lists              
               data={authors}
               keyExtractor={autor => `${autor.id}`}
@@ -131,6 +140,9 @@ const Home = () => {
       <ActivityIndicator size="small" color={props => props.theme.titles} />
     } 
     </SpotlightTitleContainer>
+    {!loadingAuthors && totalAuthors == 0 &&
+      <TextNotData>Nenhuma frase em destaque encontrada.</TextNotData>  
+    }
     {phrases.map((phrase) =>(    
       <Card 
         key={`${phrase.id}`}
@@ -140,7 +152,7 @@ const Home = () => {
       />
     ))}
   </SpotlightContainer>
-  </ScrollView>
+  </ScrollViewContainer>
   </>
   );
 }

@@ -26,7 +26,7 @@ return (
   <>
   <StatusBar barStyle={darkMode?'light-content':'dark-content'} backgroundColor="transparent" translucent  />
   <ThemeProvider theme={darkMode ? colors.dark :colors.light} >
-    {signed ? <AppRoutes />:<AuthRoutes/>}
+    {signed ? <AppRoutes/>:<AuthRoutes/>}
   </ThemeProvider>
   </>
 );  

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text,TouchableOpacity,Share,Clipboard } from 'react-native';
+import { TouchableOpacity,Share,Clipboard } from 'react-native';
 import {AntDesign} from '@expo/vector-icons';
 
 import {  

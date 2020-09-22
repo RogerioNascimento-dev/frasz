@@ -7,7 +7,8 @@ const colors = {
         bgButtons:'#f2f2f2', 
         bgMinicard:'#EDF2F4',
         bgCard:'#F8FFFF',
-        bgBottomCard:'#EDF2F4'
+        bgBottomCard:'#EDF2F4',
+        bottomMenuActive:'#D90429',
     },
     dark:{
         background:"#000",
@@ -17,7 +18,8 @@ const colors = {
         bgButtons:'#f2f2f2',
         bgMinicard:'#EDF2F4',
         bgCard:'#F8FFFF',
-        bgBottomCard:'#DDD'
+        bgBottomCard:'#DDD',
+        bottomMenuActive:'#D90429',
     }
 }
 

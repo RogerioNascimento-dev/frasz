@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import requests
+import time
 
 class PensadorspiderSpider(scrapy.Spider):
     name = 'pensadorSpider'
@@ -23,10 +24,16 @@ class PensadorspiderSpider(scrapy.Spider):
         category  = response.css(".top h1::text").extract_first()
         cards_phrases = response.css('.thought-card')
         for phrases in cards_phrases:
+            time.sleep(0.3)
             text = phrases.css('.frase::text').get();
-            autor = phrases.css('.autor a::text').get();   
+            autor = phrases.css('.autor a::text').get();              
             if category and text and autor:
-                payload = {'safe_name':link,'category':category,'text':text,'author':autor}
-                #yield requests.post(self.api_local+"PhrasesPublics", data=payload)
-                yield {'safe_name':link,'category':category,'text':text,'author':autor}                           
+                print('================|Enviando para API|===================')
+                print('Autor - '+autor) 
+                print('Frase - '+text) 
+                print('Categoria - '+category)
+                print('======================================================')
+                payload = {'safe_name':link,'category':category,'text':text,'author':autor}                
+                #yield {'safe_name':link,'category':category,'text':text,'author':autor} 
+                yield requests.post(self.api_local+"PhrasesPublics", data=payload)                          
         pass
