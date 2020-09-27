@@ -11,7 +11,8 @@ import {
   AuthorText
 } from './styles';
 
-const Card = ({phrase,author,id}) => {
+const Card = ({phrase,author,id,liked,likeOrUnlike}) => {
+    let actionLike = liked?'UNLIKE':'LIKE';
     const handleOnShare = async (phrase,author) => {
         try {
           const result = await Share.share(
@@ -40,9 +41,9 @@ const Card = ({phrase,author,id}) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={{marginRight:10}} onPress={() => handleOnShare(phrase,author)}>
                     <AntDesign name="sharealt" size={20} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <AntDesign name="heart" size={20} color="black" />
+                </TouchableOpacity>                
+                <TouchableOpacity onPress={() => likeOrUnlike(id,actionLike)}>
+                    <AntDesign name={liked?"heart":"hearto"} size={20} color={liked?"red":"black"} />
                 </TouchableOpacity>
             </ContainerFooterBottons>
           </ContainerFooter>

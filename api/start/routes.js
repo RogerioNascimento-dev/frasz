@@ -14,5 +14,7 @@ Route.group(() =>{
     Route.get('categories','PhraseCategoryController.index')
     Route.get('phrases','PhraseController.index')
     Route.post('phrases','PhraseController.store')
+    Route.post('likeOrDeslike','PhraseLikeController.store')
+    Route.get('phrasesLiked','PhraseLikeController.index')
 }).middleware(['auth'])
 

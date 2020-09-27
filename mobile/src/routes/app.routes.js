@@ -23,7 +23,7 @@ const AppRoutes = () =>{
           } else if (route.name === 'Profile') {
             iconName = focused ? <Image style={[styleImageProfile,{borderColor:color}]} source={{uri:user.image_profile}} />:<Image style={[styleImageProfile,{borderColor:color}]} source={{uri:user.image_profile}} />; 
           }else if(route.name === 'Likes') {
-              iconName = focused ? <AntDesign name="hearto" size={30} color={color} />:<AntDesign name="heart" size={30} color={color} />;
+              iconName = focused ? <AntDesign name="heart" size={30} color={color} />:<AntDesign name="hearto" size={30} color={color} />;
           }else if(route.name === 'Settings') {
             iconName = focused ? <SimpleLineIcons name="settings" size={30} color={color} />:<Fontisto name="player-settings" size={30} color={color} />;
           }

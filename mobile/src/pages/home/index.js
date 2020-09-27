@@ -1,9 +1,10 @@
 import React,{useEffect,useState} from 'react';
-import { ScrollView,ActivityIndicator } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import Header from '../../components/header'
 import MiniCard from '../../components/miniCard';
 import Card from '../../components/card';
 import api from '../../services/api';
+import {likeOrUnlike,phrasesLiked} from '../../services/phrase';
 
 import {  
   ScrollViewContainer,
@@ -40,8 +41,19 @@ const Home = () => {
   }
   async function loadPhrases(){
     setLoadingPhrases(true);
-    const response = await api.get('phrases');
+    const response = await api.get('phrases');    
     const {data} = response.data;
+    const phrasesLikeds = await phrasesLiked();
+    
+    data.map((phraseCurrent) =>{ 
+    phrasesLikeds.data.map((obj) =>{                  
+        if(phraseCurrent.id === obj.phrase_id){
+          phraseCurrent.liked = true;          
+        }else{
+          phraseCurrent.liked = false;          
+        }
+      })      
+    })
     setPhrases(data);
     setLoadingPhrases(false);
   }
@@ -75,7 +87,7 @@ const Home = () => {
   useEffect(() =>{   
    loadAuthors()
    loadCategories()
-   loadPhrases()   
+   loadPhrases()      
   },[])  
 
  
@@ -149,6 +161,8 @@ const Home = () => {
         phrase={phrase.text}
         author={(phrase.author?.name)?phrase.author?.name:phrase.user?.name}
         id={phrase.id}
+        likeOrUnlike={likeOrUnlike}
+        liked={phrase.liked}
       />
     ))}
   </SpotlightContainer>
