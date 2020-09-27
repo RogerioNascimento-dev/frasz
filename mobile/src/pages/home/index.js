@@ -6,6 +6,7 @@ import Card from '../../components/card';
 import api from '../../services/api';
 import {likeOrUnlike,phrasesLiked} from '../../services/phrase';
 
+
 import {  
   ScrollViewContainer,
   Container,
@@ -95,7 +96,6 @@ async function mergeLikeds(phrasesLikeds,data){
    loadPhrases()      
   },[])  
 
- 
   return (
     <>
     <Header />

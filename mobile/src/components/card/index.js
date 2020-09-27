@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import { TouchableOpacity,Share,Clipboard } from 'react-native';
 import {AntDesign} from '@expo/vector-icons';
+import LottieView from  "lottie-react-native";
 
 import {  
   Container,
@@ -13,31 +14,38 @@ import {
 
 const Card = ({phrase,author,id,liked,likeOrUnlike}) => {   
 
-    const [likedState,setLikedState] =  useState(liked);    
-    const handleOnShare = async (phrase,author) => {
-        try {
-          const result = await Share.share(
-              {message:`${phrase} (${author})`},
-              {dialogTitle:"Por onde deseja compartilhar?"}
-              );                    
-        } catch (error) {
-          alert(error.message);
-        }
-      };
+const [likedState,setLikedState] =  useState(liked);    
+const [animateLike,setAnimateLike] = useState(false);
 
-      const handleCopy = async (phrase,author) => {
-        await Clipboard.setString(`${phrase} (${author})`);
-        alert('Copied to Clipboard!');
-      };
+const handleOnShare = async (phrase,author) => {
+  try {
+    const result = await Share.share(
+        {message:`${phrase} (${author})`},
+        {dialogTitle:"Por onde deseja compartilhar?"}
+        );                    
+  } catch (error) {
+    alert(error.message);
+  }
+};
 
-      const handleLikeOrUnlike = async (id,actionLike)=>{
-        await likeOrUnlike(id,actionLike);
-        setLikedState(!likedState);
-      }
+const handleCopy = async (phrase,author) => {
+  await Clipboard.setString(`${phrase} (${author})`);
+  alert('Copied to Clipboard!');
+};
+
+const handleLikeOrUnlike = async (id,actionLike)=>{
+  setAnimateLike(true);
+  await likeOrUnlike(id,actionLike);
+  setLikedState(!likedState);
+
+  setTimeout(function(){ setAnimateLike(false); }, 100);  
+}
+
   return (
-      <Container>
+      <Container>               
           <ContainerPhrase>
-            <Phrase>{phrase}</Phrase>
+            <Phrase>{phrase}</Phrase>            
+            {animateLike && <LottieView source={require("../../assets/like.json")} loop autoPlay />}            
           </ContainerPhrase>
           <ContainerFooter>
             <AuthorText>{author ? author : 'Desconhecido'}</AuthorText>
