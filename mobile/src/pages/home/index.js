@@ -44,18 +44,23 @@ const Home = () => {
     const response = await api.get('phrases');    
     const {data} = response.data;
     const phrasesLikeds = await phrasesLiked();
-    
-    data.map((phraseCurrent) =>{ 
-    phrasesLikeds.data.map((obj) =>{                  
-        if(phraseCurrent.id === obj.phrase_id){
-          phraseCurrent.liked = true;          
-        }else{
-          phraseCurrent.liked = false;          
-        }
-      })      
-    })
-    setPhrases(data);
+    const teste = await mergeLikeds(phrasesLikeds,data);    
+    setPhrases(teste);
     setLoadingPhrases(false);
+  }
+
+async function mergeLikeds(phrasesLikeds,data){
+    return new Promise((resolve, reject)=>{
+      let idsLikeds = [];
+      phrasesLikeds.data.map((e) =>{idsLikeds.push(e.phrase_id)})      
+      data.map((phrase) =>{
+        phrase.liked = false
+        if(idsLikeds.includes(phrase.id)){
+          phrase.liked = true
+        }
+      })
+      resolve(data)
+    })
   }
   async function loadAuthors(){    
     if(loadingAuthors || totalAuthors > 0 && authors.length === totalAuthors){

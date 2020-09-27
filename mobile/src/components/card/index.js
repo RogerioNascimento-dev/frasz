@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { TouchableOpacity,Share,Clipboard } from 'react-native';
 import {AntDesign} from '@expo/vector-icons';
 
@@ -11,8 +11,9 @@ import {
   AuthorText
 } from './styles';
 
-const Card = ({phrase,author,id,liked,likeOrUnlike}) => {
-    let actionLike = liked?'UNLIKE':'LIKE';
+const Card = ({phrase,author,id,liked,likeOrUnlike}) => {   
+
+    const [likedState,setLikedState] =  useState(liked);    
     const handleOnShare = async (phrase,author) => {
         try {
           const result = await Share.share(
@@ -28,6 +29,11 @@ const Card = ({phrase,author,id,liked,likeOrUnlike}) => {
         await Clipboard.setString(`${phrase} (${author})`);
         alert('Copied to Clipboard!');
       };
+
+      const handleLikeOrUnlike = async (id,actionLike)=>{
+        await likeOrUnlike(id,actionLike);
+        setLikedState(!likedState);
+      }
   return (
       <Container>
           <ContainerPhrase>
@@ -42,8 +48,8 @@ const Card = ({phrase,author,id,liked,likeOrUnlike}) => {
                 <TouchableOpacity style={{marginRight:10}} onPress={() => handleOnShare(phrase,author)}>
                     <AntDesign name="sharealt" size={20} color="black" />
                 </TouchableOpacity>                
-                <TouchableOpacity onPress={() => likeOrUnlike(id,actionLike)}>
-                    <AntDesign name={liked?"heart":"hearto"} size={20} color={liked?"red":"black"} />
+                <TouchableOpacity onPress={() => handleLikeOrUnlike(id,likedState?'UNLIKE':'LIKE')}>
+                    <AntDesign name={likedState?'heart':'hearto'} size={20} color={likedState?"red":"black"} />
                 </TouchableOpacity>
             </ContainerFooterBottons>
           </ContainerFooter>

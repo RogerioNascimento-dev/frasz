@@ -44,6 +44,12 @@ class PhraseLikeController {
       const phraseLike = await PhraseLike.findOrCreate({user_id,phrase_id},
         {user_id,phrase_id});     
       return phraseLike;
+    }else{
+      await PhraseLike.query()
+      .where('phrase_id', phrase_id)
+      .where('user_id',user_id)
+      .delete();
+      return true;
     }
 
   }
