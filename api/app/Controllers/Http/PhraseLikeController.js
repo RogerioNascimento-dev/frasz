@@ -21,9 +21,17 @@ class PhraseLikeController {
    * @param {View} ctx.view
    */
   async index ({ request, response, auth }) {
-    const dados = await PhraseLike.query()
-    .where('user_id',auth.user.id)
+    const dados = await PhraseLike.query()     
+    .with('phrase.author')    
+    .with('phrase.user')    
+    .where('user_id',auth.user.id)   
     .fetch()
+    
+
+    dados.rows.map((row) =>{
+      row.liked = true   
+    })
+
     return dados
   }
 
@@ -45,7 +53,7 @@ class PhraseLikeController {
         {user_id,phrase_id});     
       return phraseLike;
     }else{
-      await PhraseLike.query()
+      await PhraseLike.query()      
       .where('phrase_id', phrase_id)
       .where('user_id',user_id)
       .delete();

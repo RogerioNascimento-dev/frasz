@@ -2,8 +2,7 @@ import React,{ createContext,useState,useEffect } from 'react'
 import AsyncStorage from '@react-native-community/async-storage';
 
 const ContextData = {
-    darkMode: false,
-       
+    darkMode: false,       
 }
 
 const PreferenceContext = createContext(ContextData);

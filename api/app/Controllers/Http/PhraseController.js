@@ -3,6 +3,7 @@
 const Author = use('App/Models/Author')
 const Category = use('App/Models/PhraseCategory')
 const Phrase = use('App/Models/Phrase')
+const PhraseLike = use('App/Models/PhraseLike')
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -21,10 +22,10 @@ class PhraseController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({request, response}){
+  async index({request, response,auth}){
     const queryParams = request.get()    
     const page = queryParams.page ? queryParams.page : 1
-    
+    //Obtem as frases paginadas
     const phrases = await Phrase.query()
     .with('author')
     .with('user')
@@ -32,6 +33,29 @@ class PhraseController {
     .when(queryParams.user_id, (q, value) => q.where('user_id', value)) 
     .orderBy('shared','desc')
     .paginate(page);
+
+    //Obtem as frases curtidas pelo usuário autenticado
+    const idsLikeds = []
+    const likeds = await PhraseLike.query()
+    .with('phrase')
+    .where('user_id',auth.user.id)
+    .fetch()
+
+    //cria um array simples somente com os ids das frases que o usuário curtiu
+    likeds.rows.map((likeds) =>{
+      idsLikeds.push(likeds.phrase_id)
+    })
+
+    /*
+     * intera as frases e verifica se está entre os ids das frases curtidas
+     * se estiver retorna true na posicao liked se não retorna false
+    */
+
+    phrases.rows.map((e) =>{
+      e.liked = false
+      if(idsLikeds.includes(e.id))
+      e.liked = true
+    })    
 
     return phrases
 }

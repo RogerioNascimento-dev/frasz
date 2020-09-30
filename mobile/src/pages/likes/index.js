@@ -1,98 +1,43 @@
-import React from 'react';
+import React,{useContext,useEffect} from 'react';
+import {ActivityIndicator} from 'react-native';
 import Card from '../../components/card';
+import {likeOrUnlike} from '../../services/phrase';
+import phraseContext from '../../context/phrase';
 
 import { 
   Container,
   Title,
-  Lists } from './styles';
+  ContainerTitle,
+  Lists,
+  ContentLoadPhrases } from './styles';
 
 const Likes = () => {
 
-  const phrasesLikeds = [
-    {
-      id:9896899,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:98969899,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:998969,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:9989689,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:999869,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:998999,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:96999,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:997969,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:97799,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:99589,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:9989,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:9979,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:9299,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:94599,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },
-    {
-      id:9949,
-      phrase:'Minha Frase é esta quero que saiba',
-      author:'Nascimento'
-    },    
-  ]
+  const {loadingPhrasesLiked,dataPhrasesLiked,loadPhrasesLiked}= useContext(phraseContext);
+
+  useEffect(() =>{   
+    loadPhrasesLiked()      
+   },[])  
   return (
   <Container>
+    <ContainerTitle>
       <Title>Frases curtidas</Title>
+      {loadingPhrasesLiked &&
+          <ActivityIndicator size="small" color={props => props.theme.titles}  />
+        }
+        </ContainerTitle>      
       <Lists 
-      data={phrasesLikeds}
-      keyExtractor={phrase => `${phrase.id}`}
-      renderItem={({item}) =>{
-        return (<Card phrase={item.phrase} author={item.author} id={item.id} />)
+      data={dataPhrasesLiked}
+      keyExtractor={item => `${item.phrase.id}`}
+      renderItem={({item}) =>{        
+        return (<Card 
+          phrase={item.phrase.text}
+          author={(item.phrase.author?.name)?item.phrase.author?.name:item.phrase.user?.name}
+          id={item.phrase.id}
+          likeOrUnlike={likeOrUnlike}
+          liked={item.liked}
+          reloadPhrasesHome={true}
+           />)
       }}
       />
       

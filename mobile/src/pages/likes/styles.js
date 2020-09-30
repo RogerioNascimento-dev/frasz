@@ -9,6 +9,7 @@ export const Container = styled.View`
 
 export const Title = styled.Text`
   margin-bottom:10px;
+  margin-right:10px;
   font-size:30px;
   font-weight:bold;
   color:${props => props.theme.titles}
@@ -16,4 +17,8 @@ export const Title = styled.Text`
 
 export const Lists = styled.FlatList`
     margin-bottom:20px;
+`;
+
+export const ContainerTitle = styled.View`
+  flex-direction:row;
 `;

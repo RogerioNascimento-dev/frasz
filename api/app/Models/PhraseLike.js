@@ -4,6 +4,9 @@
 const Model = use('Model')
 
 class PhraseLike extends Model {
+    phrase(){
+        return this.belongsTo('App/Models/Phrase')
+    }
 }
 
 module.exports = PhraseLike

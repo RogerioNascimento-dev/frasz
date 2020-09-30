@@ -1,7 +1,8 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import { TouchableOpacity,Share,Clipboard } from 'react-native';
 import {AntDesign} from '@expo/vector-icons';
 import LottieView from  "lottie-react-native";
+import phraseContext from '../../context/phrase';
 
 import {  
   Container,
@@ -12,10 +13,11 @@ import {
   AuthorText
 } from './styles';
 
-const Card = ({phrase,author,id,liked,likeOrUnlike}) => {   
+const Card = ({phrase,author,id,liked,likeOrUnlike,reloadPhrasesHome}) => {   
 
 const [likedState,setLikedState] =  useState(liked);    
 const [animateLike,setAnimateLike] = useState(false);
+const {loadPhrasesHome,loadPhrasesLiked}= useContext(phraseContext);
 
 const handleOnShare = async (phrase,author) => {
   try {
@@ -34,11 +36,20 @@ const handleCopy = async (phrase,author) => {
 };
 
 const handleLikeOrUnlike = async (id,actionLike)=>{
-  setAnimateLike(true);
-  await likeOrUnlike(id,actionLike);
-  setLikedState(!likedState);
-
-  setTimeout(function(){ setAnimateLike(false); }, 100);  
+  
+  try{
+    setAnimateLike(true);
+    await likeOrUnlike(id,actionLike);       
+    setAnimateLike(false);    
+    if(reloadPhrasesHome){
+      loadPhrasesHome();
+    }
+    loadPhrasesLiked();
+    setLikedState(!likedState);
+  }catch(ex){
+    setAnimateLike(false); 
+    alert(`Algo inesperado aconteceu ao tentar ${likedState?'descurtir':'curtir'} esta frase!`);
+  }
 }
 
   return (
