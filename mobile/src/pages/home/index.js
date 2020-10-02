@@ -1,11 +1,13 @@
 import React,{useEffect,useContext,useState} from 'react';
-import { ActivityIndicator } from 'react-native';
+import {useSelector,useDispatch} from 'react-redux';
+import { ActivityIndicator,FlatList } from 'react-native';
 import Header from '../../components/header'
 import MiniCard from '../../components/miniCard';
 import Card from '../../components/card';
 import api from '../../services/api';
-import {likeOrUnlike} from '../../services/phrase';
-import phraseContext from '../../context/phrase';
+import {likeOrUnlike,phrases} from '../../services/phrase';
+import {pushPhrases} from '../../store/modules/phrase/actions';
+import { showMessage } from "react-native-flash-message";
 
 import {  
   ScrollViewContainer,
@@ -20,24 +22,29 @@ import {
 } from './styles';
 
 const Home = () => {
-
-  const {phraseHome,loadingPhrasesHome,loadPhrasesHome}= useContext(phraseContext);
-  
+  const dispatch = useDispatch();
+  const phrasesStore = useSelector(state => state.phrase); 
   const [categories,setCategories] = useState([])
   const [totalCategories,setTotalCategories] = useState(0)
   const [pageCategories,setPageCategories] = useState(1)
   const [loadingCategories,setLoadingCategories] = useState(false)
-
   const [authors,setAuthors] =  useState([]);
   const [totalAuthors,setTotalAuthors] =  useState(0);
   const [pageAuthors,setPageAuthors] =  useState(1);
-  const [loadingAuthors,setLoadingAuthors] =  useState(false);
+  const [loadingAuthors,setLoadingAuthors] =  useState(false);   
   
-  function handdleMinicardCategories(){
-    alert('chamei aqui...');
+  const [loadingPhrasesHome,setLoadingPhrasesHome] = useState(false);
+  
+
+
+  function handdleMinicardCategories(){    
+    showMessage({
+      message: "Hello World",
+      description: "This is our second message",
+      type: "success",
+    });
   }
   function handdleMinicardAuthor(){
-
   }  
 
   async function loadAuthors(){    
@@ -52,8 +59,7 @@ const Home = () => {
     setLoadingAuthors(false);
     setPageAuthors(pageAuthors +1);
  }
- async function loadCategories(){
-  
+ async function loadCategories(){  
   if(loadingCategories || totalCategories > 0 && categories.length === totalCategories){
     return;
   }
@@ -67,16 +73,22 @@ const Home = () => {
   setPageCategories(pageCategories + 1);
 }
 
-  useEffect(() =>{   
-   loadAuthors()
-   loadCategories()
-   loadPhrasesHome()          
-  },[])  
+async function loadPhrasesHome(){
+  setLoadingPhrasesHome(true);
+  const dados = await phrases();
+  dispatch(pushPhrases(dados));
+  setLoadingPhrasesHome(false);
+}
 
+useEffect(() =>{   
+  loadAuthors()
+  loadCategories()
+  loadPhrasesHome()          
+},[])  
   
   return (    
     <>        
-    <Header />
+    <Header />    
     <ScrollViewContainer>           
       <Container>
         <ContainerCategories>
@@ -98,7 +110,7 @@ const Home = () => {
               showsHorizontalScrollIndicator={false}
               renderItem={({item}) =>{
                 return (
-                  <MiniCard title={item.name} subTitle={`${item.phrases.length} Frases`} onpress={handdleMinicardCategories} />
+                  <MiniCard title={item.name} subTitle={`${item.phrases.length} Frases`} onPress={handdleMinicardCategories} />
                 )
               }}
             />
@@ -138,7 +150,8 @@ const Home = () => {
     {!loadingAuthors && totalAuthors == 0 &&
       <TextNotData>Nenhuma frase em destaque encontrada.</TextNotData>  
     }    
-    {phraseHome.map((phrase) =>(    
+    
+     { phrasesStore.phraseHome.map((phrase) =>(    
       <Card 
         key={`${phrase.id}`}
         phrase={phrase.text}
@@ -148,7 +161,7 @@ const Home = () => {
         liked={phrase.liked}
         reloadPhrasesHome={false}
       />
-    ))} 
+     ))}  
   </SpotlightContainer>
   </ScrollViewContainer>
   </>

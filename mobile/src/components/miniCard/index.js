@@ -6,10 +6,10 @@ import {
   SubTitle,
 } from './styles';
 
-const MiniCard = ({onpress,title,subTitle}) => {
+const MiniCard = ({onPress,title,subTitle}) => {
     const titleReplaced = capitalize(title.replace('Frases ', ''))
   return (    
-        <Container onPress={onpress}>
+        <Container onPress={onPress}>
             <Title numberOfLines={1} >{titleReplaced}</Title>
             {subTitle && 
             <SubTitle>{subTitle}</SubTitle>

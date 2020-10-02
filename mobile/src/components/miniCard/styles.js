@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
+import {TouchableOpacity} from 'react-native';
 
-export const Container = styled.View`
+export const Container = styled(TouchableOpacity)`
         background-color:${props => props.theme.bgMinicard};
         padding: 10px;
         border-radius:10px;

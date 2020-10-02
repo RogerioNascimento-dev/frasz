@@ -1,9 +1,12 @@
 import React,{useState,useContext} from 'react';
 import { TouchableOpacity,Share,Clipboard } from 'react-native';
+import {useDispatch} from 'react-redux';
 import {AntDesign} from '@expo/vector-icons';
 import LottieView from  "lottie-react-native";
 import phraseContext from '../../context/phrase';
-
+import {phrases,phrasesLiked} from '../../services/phrase';
+import {pushPhrases, clean,pushPhrasesLiked,cleanLiked} from '../../store/modules/phrase/actions';
+import { showMessage } from "react-native-flash-message";
 import {  
   Container,
   ContainerPhrase,
@@ -17,12 +20,12 @@ const Card = ({phrase,author,id,liked,likeOrUnlike,reloadPhrasesHome}) => {
 
 const [likedState,setLikedState] =  useState(liked);    
 const [animateLike,setAnimateLike] = useState(false);
-const {loadPhrasesHome,loadPhrasesLiked}= useContext(phraseContext);
+const dispatch = useDispatch();
 
 const handleOnShare = async (phrase,author) => {
   try {
     const result = await Share.share(
-        {message:`${phrase} (${author})`},
+        {message:`${phrase} (${author})`},        
         {dialogTitle:"Por onde deseja compartilhar?"}
         );                    
   } catch (error) {
@@ -32,23 +35,36 @@ const handleOnShare = async (phrase,author) => {
 
 const handleCopy = async (phrase,author) => {
   await Clipboard.setString(`${phrase} (${author})`);
-  alert('Copied to Clipboard!');
+  showMessage({
+    message: "Sucesso!",
+    description: "Mensagem copiada, pronta comartilhar :)",
+    type: "success",
+  });
 };
 
 const handleLikeOrUnlike = async (id,actionLike)=>{
   
   try{
     setAnimateLike(true);
-    await likeOrUnlike(id,actionLike);       
-    setAnimateLike(false);    
+    await likeOrUnlike(id,actionLike);            
     if(reloadPhrasesHome){
-      loadPhrasesHome();
-    }
-    loadPhrasesLiked();
+      const dados = await phrases();     
+      dispatch(clean()); 
+      dispatch(pushPhrases(dados));
+    }    
+    const data = await phrasesLiked();    
+    dispatch(cleanLiked());
+    dispatch(pushPhrasesLiked(data));
+    setAnimateLike(false);  
     setLikedState(!likedState);
   }catch(ex){
     setAnimateLike(false); 
-    alert(`Algo inesperado aconteceu ao tentar ${likedState?'descurtir':'curtir'} esta frase!`);
+    showMessage({
+      message: "Oops!",
+      description: `Algo inesperado aconteceu ao tentar ${likedState?'descurtir':'curtir'} esta frase!`,
+      type: "danger",
+    });
+    
   }
 }
 
