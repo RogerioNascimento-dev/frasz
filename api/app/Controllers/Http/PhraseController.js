@@ -30,8 +30,8 @@ class PhraseController {
     .with('author')
     .with('user')
     .when(queryParams.author_id, (q, value) => q.where('author_id', value))    
-    .when(queryParams.user_id, (q, value) => q.where('user_id', value)) 
-    .orderBy('shared','desc')
+    .when(queryParams.user_id, (q, value) => q.where('user_id', value))         
+    .orderBy('shared','desc')    
     .paginate(page);
 
     //Obtem as frases curtidas pelo usuário autenticado

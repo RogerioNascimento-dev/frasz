@@ -36,7 +36,7 @@ const Login = () => {
         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}&fields=name,email,picture.width(200){url}`);
         const userFacebook = await response.json();
         const responseSignIn =  await signInFacebook(userFacebook);  
-        if(!responseSignIn.success){     
+        if(!responseSignIn.success){              
           alert('Algo inesperado aconteceu!')
         }
         

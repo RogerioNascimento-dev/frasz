@@ -22,3 +22,6 @@ export const Lists = styled.FlatList`
 export const ContainerTitle = styled.View`
   flex-direction:row;
 `;
+export const LikedList = styled.FlatList`
+
+`;

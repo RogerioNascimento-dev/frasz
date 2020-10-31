@@ -1,7 +1,7 @@
 import api from './api';
 
 export async function likeOrUnlike(phrase_id,action){          
-    const response = await api.post('likeOrDeslike',{phrase_id,action});                
+    await api.post('likeOrDeslike',{phrase_id,action});                
     return  {success:true};
        
 }

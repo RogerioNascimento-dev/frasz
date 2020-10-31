@@ -1,12 +1,10 @@
 import styled from 'styled-components/native';
 
-export const ScrollViewContainer = styled.ScrollView`
+export const ScrollViewContainer = styled.View`
     flex:1;
     background-color:${props => props.theme.background};
 `;
-
-export const Container = styled.View`
-        flex: 1;
+export const Container = styled.View`        
         padding-top: 10px;
         padding-left: 20px;      
         background-color:${props => props.theme.background};
@@ -32,7 +30,7 @@ export const TextCategories =styled.Text`
 
 export const SpotlightContainer = styled.View`
     background-color:${props => props.theme.background}; 
-    padding:20px;
+    padding:20px;    
 `;
 
 export const Lists = styled.FlatList`
@@ -48,4 +46,8 @@ export const ContainerTitleCategories = styled.View`
 export const TextNotData = styled.Text`
     color:${props => props.theme.texts}; 
     font-size:16px;
+`;
+
+export const SpotlightList = styled.FlatList`
+    height:200px;
 `;

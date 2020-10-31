@@ -1,9 +1,10 @@
-import React,{useContext,useEffect,useState} from 'react';
+import React,{useEffect,useState} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import {ActivityIndicator} from 'react-native';
 import Card from '../../components/card';
-import {likeOrUnlike,phrasesLiked} from '../../services/phrase';
-import {pushPhrasesLiked,cleanLiked} from '../../store/modules/phrase/actions';
+import {likeOrUnlike,phrasesLiked, phrases} from '../../services/phrase';
+import {pushPhrasesLiked} from '../../store/modules/phraseLikeds/actions';
+import {pushPhrases,clean} from '../../store/modules/phrase/actions';
 
 import { 
   Container,
@@ -14,19 +15,36 @@ import {
 
 const Likes = () => {
 
-  const dataPhrasesLiked = useSelector(state => state.phrase);   
+  const dataPhrasesLiked = useSelector(state => state.phraseLikeds);   
   const dispach = useDispatch();
   const [loadingPhrasesLiked,setLoadingPhrasesLiked] = useState(false);
-  const load = async () =>{
-    setLoadingPhrasesLiked(true);
-    const data = await phrasesLiked();    
-    dispach(cleanLiked());
-    dispach(pushPhrasesLiked(data));
-    setLoadingPhrasesLiked(false);
+  
+  const load = async () =>{    
+     setLoadingPhrasesLiked(true);
+     const data = await phrasesLiked();     
+     dispach(pushPhrasesLiked(data));
+     setLoadingPhrasesLiked(false);
   }
   useEffect(() =>{   
-    load()
+    load()    
    },[])  
+
+
+   const handleTeste = async (phrase_id,action) =>{
+
+           
+    await likeOrUnlike(phrase_id,action);
+
+    Promise.all([      
+      phrasesLiked(),
+      phrases()])
+      .then((values) =>{
+        dispach(clean());
+        dispach(pushPhrasesLiked(values[0]));
+        dispach(pushPhrases(values[1]));        
+    })
+  }
+
   return (
   <Container>
     <ContainerTitle>
@@ -36,20 +54,19 @@ const Likes = () => {
         }
         </ContainerTitle>      
       <Lists 
-      data={dataPhrasesLiked.phraseLiked}
+      data={dataPhrasesLiked}
       keyExtractor={item => `${item.phrase.id}`}
       renderItem={({item}) =>{        
         return (<Card 
           phrase={item.phrase.text}
           author={(item.phrase.author?.name)?item.phrase.author?.name:item.phrase.user?.name}
           id={item.phrase.id}
-          likeOrUnlike={likeOrUnlike}
-          liked={item.liked}
-          reloadPhrasesHome={true}
+          likeOrUnlike={handleTeste}
+          liked={item.liked}     
+          reloadPhrasesHome={true}     
            />)
       }}
-      />
-      
+      />      
   </Container>
   );
 }

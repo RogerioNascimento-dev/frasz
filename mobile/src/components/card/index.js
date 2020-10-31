@@ -1,11 +1,12 @@
-import React,{useState,useContext} from 'react';
-import { TouchableOpacity,Share,Clipboard } from 'react-native';
-import {useDispatch} from 'react-redux';
+import React,{useState,useContext,useEffect} from 'react';
+import { TouchableOpacity,Text,Share,Clipboard } from 'react-native';
+import {useDispatch,useSelector} from 'react-redux';
 import {AntDesign} from '@expo/vector-icons';
 import LottieView from  "lottie-react-native";
-import phraseContext from '../../context/phrase';
 import {phrases,phrasesLiked} from '../../services/phrase';
-import {pushPhrases, clean,pushPhrasesLiked,cleanLiked} from '../../store/modules/phrase/actions';
+import {pushPhrasesLiked} from '../../store/modules/phraseLikeds/actions';
+import {pushPhrases} from '../../store/modules/phrase/actions';
+
 import { showMessage } from "react-native-flash-message";
 import {  
   Container,
@@ -20,6 +21,9 @@ const Card = ({phrase,author,id,liked,likeOrUnlike,reloadPhrasesHome}) => {
 
 const [likedState,setLikedState] =  useState(liked);    
 const [animateLike,setAnimateLike] = useState(false);
+const dataPhrasesLiked = useSelector(state => state.phraseLikeds);   
+const dataPhrases = useSelector(state => state.phrases);   
+
 const dispatch = useDispatch();
 
 const handleOnShare = async (phrase,author) => {
@@ -41,23 +45,18 @@ const handleCopy = async (phrase,author) => {
     type: "success",
   });
 };
+  
 
 const handleLikeOrUnlike = async (id,actionLike)=>{
   
   try{
     setAnimateLike(true);
-    await likeOrUnlike(id,actionLike);            
-    if(reloadPhrasesHome){
-      const dados = await phrases();     
-      dispatch(clean()); 
-      dispatch(pushPhrases(dados));
-    }    
-    const data = await phrasesLiked();    
-    dispatch(cleanLiked());
-    dispatch(pushPhrasesLiked(data));
-    setAnimateLike(false);  
-    setLikedState(!likedState);
+    await likeOrUnlike(id,actionLike);
+    setLikedState(!likedState);  
+    setAnimateLike(false);
+    
   }catch(ex){
+    console.log(ex)
     setAnimateLike(false); 
     showMessage({
       message: "Oops!",
@@ -67,6 +66,7 @@ const handleLikeOrUnlike = async (id,actionLike)=>{
     
   }
 }
+
 
   return (
       <Container>               

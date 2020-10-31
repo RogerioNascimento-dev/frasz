@@ -1,12 +1,13 @@
 import React,{useEffect,useContext,useState} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
-import { ActivityIndicator,FlatList } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import Header from '../../components/header'
 import MiniCard from '../../components/miniCard';
 import Card from '../../components/card';
 import api from '../../services/api';
-import {likeOrUnlike,phrases} from '../../services/phrase';
+import {likeOrUnlike,phrasesLiked,phrases} from '../../services/phrase';
 import {pushPhrases} from '../../store/modules/phrase/actions';
+import {pushPhrasesLiked} from '../../store/modules/phraseLikeds/actions';
 import { showMessage } from "react-native-flash-message";
 
 import {  
@@ -19,6 +20,7 @@ import {
   SpotlightTitleContainer,
   ContainerTitleCategories,
   TextNotData,
+  SpotlightList
 } from './styles';
 
 const Home = () => {
@@ -76,7 +78,7 @@ const Home = () => {
 async function loadPhrasesHome(){
   setLoadingPhrasesHome(true);
   const dados = await phrases();
-  dispatch(pushPhrases(dados));
+  dispatch(pushPhrases(dados));  
   setLoadingPhrasesHome(false);
 }
 
@@ -86,6 +88,13 @@ useEffect(() =>{
   loadPhrasesHome()          
 },[])  
   
+const handleTeste = async (phrase_id,action) =>{
+
+  await likeOrUnlike(phrase_id,action);
+  const data = await phrasesLiked();        
+  dispatch(pushPhrasesLiked(data));
+  
+}
   return (    
     <>        
     <Header />    
@@ -126,7 +135,7 @@ useEffect(() =>{
             }
             <Lists              
               data={authors}
-              keyExtractor={autor => `${autor.id}`}
+              keyExtractor={autor => `${autor.id}_author`}
               horizontal
               onEndReached={loadAuthors}
               onEndReachedThreshold={0.2}              
@@ -149,19 +158,26 @@ useEffect(() =>{
     </SpotlightTitleContainer>
     {!loadingAuthors && totalAuthors == 0 &&
       <TextNotData>Nenhuma frase em destaque encontrada.</TextNotData>  
-    }    
-    
-     { phrasesStore.phraseHome.map((phrase) =>(    
-      <Card 
-        key={`${phrase.id}`}
-        phrase={phrase.text}
-        author={(phrase.author?.name)?phrase.author?.name:phrase.user?.name}
-        id={phrase.id}
-        likeOrUnlike={likeOrUnlike}
-        liked={phrase.liked}
-        reloadPhrasesHome={false}
-      />
-     ))}  
+    }
+    <SpotlightList                 
+      data={phrasesStore}
+      keyExtractor={phrase => `${phrase.id}_phrase`}            
+      showsHorizontalScrollIndicator={false}
+      renderItem={({item}) =>{
+        return (                  
+          <Card             
+            key={`${item.id}`}
+            phrase={item.text}
+            author={(item.author?.name)?item.author?.name:item.user?.name}
+            id={item.id}
+            likeOrUnlike={handleTeste}
+            liked={item.liked}
+            reloadPhrasesHome={false}
+          />
+        )
+      }}
+    />   
+     
   </SpotlightContainer>
   </ScrollViewContainer>
   </>
