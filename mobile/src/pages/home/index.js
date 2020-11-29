@@ -88,7 +88,7 @@ useEffect(() =>{
   loadPhrasesHome()          
 },[])  
   
-const handleTeste = async (phrase_id,action) =>{
+const handleLikeOrUnlike = async (phrase_id,action) =>{
 
   await likeOrUnlike(phrase_id,action);
   const data = await phrasesLiked();        
@@ -170,7 +170,7 @@ const handleTeste = async (phrase_id,action) =>{
             phrase={item.text}
             author={(item.author?.name)?item.author?.name:item.user?.name}
             id={item.id}
-            likeOrUnlike={handleTeste}
+            likeOrUnlike={handleLikeOrUnlike}
             liked={item.liked}
             reloadPhrasesHome={false}
           />

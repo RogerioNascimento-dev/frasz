@@ -3,7 +3,7 @@ const User = use('App/Models/User')
 class SessionController {
     async store({request,response,auth}){
         const {email,password,name,imageProfile,origin} = request.all()
-
+console.log(email,password,name,imageProfile,origin)
         const userLocatedOrCreated = await User.findOrCreate({email},
             {   name,
                 email,

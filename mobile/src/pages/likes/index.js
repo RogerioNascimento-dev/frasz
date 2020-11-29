@@ -30,8 +30,7 @@ const Likes = () => {
    },[])  
 
 
-   const handleTeste = async (phrase_id,action) =>{
-
+   const handleLikeOrUnlike = async (phrase_id,action) =>{
            
     await likeOrUnlike(phrase_id,action);
 
@@ -39,7 +38,7 @@ const Likes = () => {
       phrasesLiked(),
       phrases()])
       .then((values) =>{
-        dispach(clean());
+        //dispach(clean());
         dispach(pushPhrasesLiked(values[0]));
         dispach(pushPhrases(values[1]));        
     })
@@ -61,7 +60,7 @@ const Likes = () => {
           phrase={item.phrase.text}
           author={(item.phrase.author?.name)?item.phrase.author?.name:item.phrase.user?.name}
           id={item.phrase.id}
-          likeOrUnlike={handleTeste}
+          likeOrUnlike={handleLikeOrUnlike}
           liked={item.liked}     
           reloadPhrasesHome={true}     
            />)
